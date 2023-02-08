@@ -9,7 +9,8 @@
 body {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  background-color: #f5f5f5;
+  background-color: #eec498;
+  user-select: none;
 }
 
 .container {
@@ -33,21 +34,18 @@ body {
   gap: 25px;
   width: 100%;
   max-width: 90vw;
-  user-select: none;
 }
 
 .random-button {
   width: 50px;
   height: 50px;
-  background-color: #f5f5f5;
-  border: 1px solid #000;
+  background-color: #957dad;
   font-weight: 600;
   cursor: pointer;
 }
 
-.goal-title {
-  font-size: 36px;
-  margin-bottom: 20px;
+.random-button:focus {
+  outline: none;
 }
 
 .task-list {
@@ -66,12 +64,11 @@ body {
   flex-wrap: wrap;
   font-size: 2rem;
   font-weight: 600;
-  width: 75px;
-  height: 75px;
-  margin: 10px;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
   background-color: rgb(255, 255, 255);
   border: 1px solid #000;
-  user-select: none;
 }
 
 .completed {
@@ -88,5 +85,20 @@ body {
   max-width: 90vw;
   margin: 25px auto;
   text-align: center;
-  user-select: none;
+}
+
+.pulsate {
+  animation: pulsate 3s ease-in-out 1;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

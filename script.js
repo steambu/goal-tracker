@@ -1,10 +1,14 @@
+// localStorage.clear();
+
 const randomButton = document.querySelector(".random-button");
 const infoContainer = document.querySelector(".info-container");
 const goalCounter = document.querySelector(".goal-counter h2");
 const taskList = document.querySelector(".task-list");
 
 const numberOfTasks = 100;
-const numberOfTasksToComplete = 10;
+const numberOfTasksToComplete = 5;
+
+let mouseDown = false;
 
 const getRandomPastelColor = function () {
   const h = Math.floor(Math.random() * 360);
@@ -31,10 +35,11 @@ randomButton.addEventListener("click", function (event) {
         let randomColor = getRandomPastelColor();
         task.style.backgroundColor = randomColor;
         task.classList.add("completed");
+        task.classList.add("pulsate");
         saveTask(task.id);
         updateInfo(task.id);
         updateCounter();
-        removeExclamationMark();
+        markAsFinished();
       }
     }
   } else {
@@ -53,23 +58,47 @@ randomButton.addEventListener("click", function (event) {
       let randomColor = getRandomPastelColor();
       task.style.backgroundColor = randomColor;
       task.classList.add("completed");
+      task.classList.add("pulsate");
       saveTask(task.id);
       updateInfo(task.id);
       updateCounter();
-      removeExclamationMark();
+      markAsFinished();
     }
   }
 });
 
-taskList.addEventListener("click", function (event) {
-  if (event.target.classList.contains("task")) {
+const handleTaskClick = function (event) {
+  if (
+    event.target.classList.contains("task") &&
+    !event.target.classList.contains("completed")
+  ) {
     event.target.classList.add("completed");
+    event.target.classList.add("pulsate");
     updateTaskColor(event.target);
     saveTask(event.target.id);
     updateInfo(event.target.id);
     updateCounter();
-    removeExclamationMark();
+    markAsFinished();
   }
+};
+
+document.addEventListener("mousedown", function (event) {
+  mouseDown = true;
+  handleTaskClick(event);
+});
+
+document.addEventListener("mousemove", function (event) {
+  if (mouseDown && event.target.classList.contains("task")) {
+    handleTaskClick(event);
+  }
+});
+
+document.addEventListener("mouseup", function (event) {
+  mouseDown = false;
+});
+
+document.addEventListener("mouseleave", function () {
+  mouseDown = false;
 });
 
 const updateCounter = function () {
@@ -145,7 +174,7 @@ const updateTaskColor = function (task) {
   task.style.backgroundColor = getRandomPastelColor();
 };
 
-const addExclamationMark = function () {
+const markAsUnfinished = function () {
   const tasks = document.querySelectorAll(".task");
   tasks.forEach(function (task) {
     if (!task.classList.contains("completed")) {
@@ -155,7 +184,7 @@ const addExclamationMark = function () {
 };
 
 // function to remove exclamation mark from completed task
-const removeExclamationMark = function () {
+const markAsFinished = function () {
   const tasks = document.querySelectorAll(".task");
   tasks.forEach(function (task) {
     if (task.classList.contains("completed")) {
@@ -167,4 +196,4 @@ const removeExclamationMark = function () {
 generateTasks();
 loadTasks();
 updateCounter();
-addExclamationMark();
+markAsUnfinished();
